@@ -31,44 +31,41 @@ public class Tablero {
     }
 
     private boolean columnaVacia(int columna) {
-        for (int fila = 0; fila < FILAS; fila++) {
-            if (arrayCasilla[fila][1] != null) {
-                return false;
-            }
-        }
-        return true;
+        return (!arrayCasilla[FILAS-1][columna].estaOcupada());
     }
 
     public boolean estaLleno() {
-        for (int columna = 0; columna < COLUMNAS; columna++) {
-            if (!columnaLlena(columna)) {
-                return false;
-            }
+        boolean lleno = true;
+        for (int i = 0; i < COLUMNAS && lleno; i++) {
+            lleno = columnaLlena(i);
         }
-        return true;
+        return lleno;
     }
 
     private boolean columnaLlena(int columna) {
-        for (int fila = 0; fila < FILAS; fila++) {
-            if (arrayCasilla[fila][7] == null) {
-                return false;
-            }
-        }
-        return true;
+        return arrayCasilla[0][columna].estaOcupada();
     }
     public boolean introducirFicha(int columna, Ficha ficha) throws OperationNotSupportedException {
-        Objects.requireNonNull(ficha, "La ficha no puede ser nula.");
-        Objects.requireNonNull(columna, "La columna no puede ser nula.");
-        if(columna < 0 || columna > COLUMNAS) {
-            throw new IllegalArgumentException("La columna debe estar entre 0 y " + (COLUMNAS - 1));
-        }
-
-        if(columnaLlena(columna)) {
-            throw new OperationNotSupportedException("La columna está llena.");
-        }
-        return false;
+        comprobarColumna(columna);
+        comprobarFicha(ficha);
     }
     private void comprobarFicha(Ficha ficha){
         Objects.requireNonNull(ficha, "La ficha no puede ser nula.");
+    }
+    public void comprobarColumna(int columna){
+        if (columna < 0 || columna >= COLUMNAS) {
+            throw new IllegalArgumentException("La columna pasada por parámetro es incorrecta: " + columna);
+        }
+    }
+    private int getPrimeraFilaVacia(int columna){
+        boolean vacia = false;
+        int filaVacia = 0;
+        for(int i = 0; i < FILAS && vacia == false;i++){
+            if(!arrayCasilla[i][columna].estaOcupada()){
+                filaVacia = i;
+                vacia = true;
+            }
+        }
+        return filaVacia;
     }
 }

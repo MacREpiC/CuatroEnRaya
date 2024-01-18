@@ -19,19 +19,20 @@ public class Casilla {
         }
         this.ficha = ficha;
     }
-    public boolean estaOcupada(){
-        if(ficha != null)
-            return true;
-        else
-            return false;
+    public boolean estaOcupada() {
+        boolean ocupada = false;
+        if (ficha != null) {
+            ocupada = true;
+        }
+        return ocupada;
     }
 
     @Override
     public String toString() {
-        if(ficha == null){
-            return " ";
-        } else{
-            return String.format("%s", this.ficha);
+        String espacio = " ";
+        if(ficha != null) {
+            espacio = String.format("%s", this.ficha);
         }
+        return espacio;
     }
 }
