@@ -4,35 +4,31 @@ import javax.naming.OperationNotSupportedException;
 import java.util.Objects;
 
 public class Casilla {
-    private Ficha ficha;
-    public Casilla(){
-        ficha = null;
-    }
-    public Ficha getFicha(){
-        return ficha;
-    }
 
-    public void setFicha(Ficha ficha) throws OperationNotSupportedException {
-        Objects.requireNonNull(ficha, "No se puede poner una ficha nula.");
-        if(this.ficha == Ficha.AZUL || this.ficha == Ficha.VERDE){
-            throw new OperationNotSupportedException("La casilla ya contiene una ficha.");
-        }
-        this.ficha = ficha;
-    }
-    public boolean estaOcupada() {
-        boolean ocupada = false;
-        if (ficha != null) {
-            ocupada = true;
-        }
-        return ocupada;
-    }
+	private Ficha ficha;
 
-    @Override
-    public String toString() {
-        String espacio = " ";
-        if(ficha != null) {
-            espacio = String.format("%s", this.ficha);
-        }
-        return espacio;
-    }
+	public Casilla() {
+		ficha = null;
+	}
+	
+	public Ficha getFicha() {
+		return ficha;
+	}
+	
+	public void setFicha(Ficha ficha) throws OperationNotSupportedException {
+		Objects.requireNonNull(ficha, "No se puede poner una ficha nula.");
+		if (estaOcupada()) {
+			throw new OperationNotSupportedException("La casilla ya contiene una ficha.");
+		}
+		this.ficha = ficha;
+	}
+	
+	public boolean estaOcupada() {
+		return ficha != null;
+	}
+
+	@Override
+	public String toString() {
+		return  estaOcupada() ? ficha.toString() : " ";
+	}
 }
